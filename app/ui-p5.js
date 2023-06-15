@@ -11,11 +11,12 @@
 
 import { HandLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0";
 
-const landmarkLocations = document.querySelectorAll(".landmark-location");
-const uiCanvas = document.querySelector("#ui");
-let uiContext = uiCanvas.getContext("2d");
+// const landmarkLocations = document.querySelectorAll(".landmark-location");
+// const uiCanvas = document.querySelector("#ui");
+// let uiContext = uiCanvas.getContext("2d");
 
-let movingMultiplier = 3;
+
+let movingMultiplier = 2;
 let zAddition = 0;
 let deciNum = 3;
 let touchThreshold = 0.17;
@@ -26,8 +27,11 @@ let runningMode = "VIDEO";
 let enableWebcamButton;
 let webcamRunning = false;
 let includePoints = [0, 4, 8, 12, 16, 20];
+let objLastPosition = { x: 0, y: 0 };
 
 let fingerMoving = [];
+
+createCanvas(640, 480).parent('#interactionArea');
 
 // Before we can use HandLandmarker class we must wait for it to finish
 // loading. Machine Learning models can be large and take a moment to
@@ -44,72 +48,12 @@ const createHandLandmarker = async () => {
     });
     demosSection.classList.remove("invisible");
 };
+
+
 createHandLandmarker();
-/********************************************************************
-// Demo 1: Grab a bunch of images from the page and detection them
-// upon click.
-********************************************************************/
-// In this demo, we have put all our clickable images in divs with the
-// CSS class 'detectionOnClick'. Lets get all the elements that have
-// this class.
-const imageContainers = document.getElementsByClassName("detectOnClick");
-// Now let's go through all of these and add a click event listener.
-for (let i = 0; i < imageContainers.length; i++) {
-    // Add event listener to the child element whichis the img element.
-    imageContainers[i].children[0].addEventListener("click", handleClick);
-}
 
 
-// // When an image is clicked, let's detect it and display results!
-// async function handleClick(event) {
-//     if (!handLandmarker) {
-//         console.log("Wait for handLandmarker to load before clicking!");
-//         return;
-//     }
-//     if (runningMode === "VIDEO") {
-//         runningMode = "IMAGE";
-//         await handLandmarker.setOptions({ runningMode: "IMAGE" });
-//     }
-//     // Remove all landmarks drawed before
-//     const allCanvas = event.target.parentNode.getElementsByClassName("canvas");
-//     for (var i = allCanvas.length - 1; i >= 0; i--) {
-//         const n = allCanvas[i];
-//         n.parentNode.removeChild(n);
-//     }
-//     // We can call handLandmarker.detect as many times as we like with
-//     // different image data each time. This returns a promise
-//     // which we wait to complete and then call a function to
-//     // print out the results of the prediction.
-//     const handLandmarkerResult = handLandmarker.detect(event.target);
-//     const canvas = document.createElement("canvas");
-//     canvas.setAttribute("class", "canvas");
-//     canvas.setAttribute("width", event.target.naturalWidth + "px");
-//     canvas.setAttribute("height", event.target.naturalHeight + "px");
-//     canvas.style =
-//         "left: 0px;" +
-//         "top: 0px;" +
-//         "width: " +
-//         event.target.width +
-//         "px;" +
-//         "height: " +
-//         event.target.height +
-//         "px;";
 
-//     event.target.parentNode.appendChild(canvas);
-//     const cxt = canvas.getContext("2d");
-
-//     for (const landmarks of handLandmarkerResult.landmarks) {
-//         landmarkLocations[0].innerHTML = landmarks;
-//         drawConnectors(cxt, landmarks, HAND_CONNECTIONS, {
-//             color: "#00FF00",
-//             lineWidth: 5
-//         });
-//         drawLandmarks(cxt, landmarks, { color: "#FF0000", lineWidth: 1 });
-//     }
-// }
-/********************************************************************
-// Demo 2: Continuously grab image from webcam stream and detect it.
-********************************************************************/
 const video = document.getElementById("webcam");
 const canvasElement = document.getElementById("output_canvas");
 const canvasCtx = canvasElement.getContext("2d");
@@ -120,8 +64,7 @@ const hasGetUserMedia = () => { var _a; return !!((_a = navigator.mediaDevices) 
 if (hasGetUserMedia()) {
     enableWebcamButton = document.getElementById("webcamButton");
     enableWebcamButton.addEventListener("click", enableCam);
-}
-else {
+} else {
     console.warn("getUserMedia() is not supported by your browser");
 }
 // Enable the live webcam view and start detection.
@@ -139,7 +82,7 @@ function enableCam(event) {
     else {
         webcamRunning = true;
         enableWebcamButton.innerText = "DISABLE PREDICTIONS";
-        
+
     }
     // getUsermedia parameters.
     const constraints = {
@@ -161,7 +104,6 @@ console.log(video);
 
 async function predictWebcam() {
     canvasElement.style.width = video.videoWidth;
-    ;
     canvasElement.style.height = video.videoHeight;
     canvasElement.width = video.videoWidth;
     canvasElement.height = video.videoHeight;
@@ -177,12 +119,19 @@ async function predictWebcam() {
     }
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
     if (results.landmarks) {
         for (const landmarks of results.landmarks) {
 
             uiContext.globalAlpha = 1;
             uiContext.fillStyle = "#aaaaaa";
-            uiContext.fillRect(0,0,uiCanvas.width, uiCanvas.height);
+            uiContext.fillRect(0, 0, uiCanvas.width, uiCanvas.height);
+
+            if (distance(landmarks[4], landmarks[8]) < 0.05) {
+                updateObj(true, (0.8 - landmarks[4].x) * uiCanvas.width * movingMultiplier, (0.8 - landmarks[4].y) * uiCanvas.height * movingMultiplier);
+            } else {
+                updateObj(false, (0.8 - landmarks[4].x) * uiCanvas.width * movingMultiplier, (0.8 - landmarks[4].y) * uiCanvas.height * movingMultiplier);
+            }
 
             createCursor(landmarks[4], 4);
             createCursor(landmarks[8], 8);
@@ -190,7 +139,7 @@ async function predictWebcam() {
             createCursor(landmarks[16], 16);
             createCursor(landmarks[20], 20);
 
-
+            uiContext.fillText(distance(landmarks[4], landmarks[8]).toFixed(2), 40, 40);
 
 
             drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
@@ -210,27 +159,32 @@ async function predictWebcam() {
 
 function createCursor(landmark, index) {
 
-    uiContext.globalAlpha = 1-(zAddition - landmark.z); 
+    uiContext.globalAlpha = 1 - (zAddition - landmark.z);
 
-    if (landmark.z < touchThreshold) {
-        cursorSize[index] = 25;
-    } else {
-        cursorSize[index] = 20;
-    }
-
-    createCircle(((1-smooth(landmark.x, index, 'x'))*uiCanvas.width*movingMultiplier), 
-                ((1-smooth(landmark.y, index, 'y'))*uiCanvas.width*movingMultiplier),
-                cursorSize[index],
-                `white`);
-    // uiCanvas.fillText((1-(zAddition - landmark.z)).toString(), ((1-smooth(landmark.x, index, 'x'))*uiCanvas.width*movingMultiplier), ((1-smooth(landmark.y, index, 'y'))*uiCanvas.width*movingMultiplier))                  
+    createCircle(((0.8 - landmark.x) * uiCanvas.width * movingMultiplier),
+        ((0.8 - landmark.y) * uiCanvas.height * movingMultiplier),
+        cursorSize[index],
+        `white`);
+               
 }
 
 
-function createCircle(x, y, size, color){
-    uiContext.beginPath();
-    uiContext.arc(x, y, size, 0, 2 * Math.PI, false);
-    uiContext.fillStyle = color;
-    uiContext.fill();
-}
+// function createCircle(x, y, size, color) {
+//     uiContext.beginPath();
+//     uiContext.arc(x, y, size, 0, 2 * Math.PI, false);
+//     uiContext.fillStyle = color;
+//     uiContext.fill();
+// }
 
 
+
+// function updateObj(isPicked, x, y) {
+//     if (isPicked) {
+//         createCircle(x, y - 20, 40, 'red');
+//         objLastPosition.x = x;
+//         objLastPosition.y = y - 20;
+//     } else {
+//         createCircle(objLastPosition.x, objLastPosition.y - 20, 40, 'red');
+//     }
+
+// }

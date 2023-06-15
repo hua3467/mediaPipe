@@ -98,3 +98,10 @@ const smooth = (newNum, finger, coord) => {
         moves[finger][coord].shift();
         return moves[finger][coord].reduce((a, b) => a + b) / moves[finger][coord].length;
     }
+
+function distance(landmark1, landmark2) {
+    const a = landmark1.x - landmark2.x;
+    const b = landmark1.y - landmark2.y;
+
+    return Math.hypot(a,b);
+}

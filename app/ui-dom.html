@@ -25,25 +25,44 @@ limitations under the License. -->
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 
-<body>
+<link rel="stylesheet" href="./css/ui-dom.css">
+<style>
+  
+  
+</style>
 
-<canvas width="1280" height="960" id="ui"></canvas>
+<body>
+<div id="ui">
+  <div class="tool-bar">
+    <button data-color="red">Red</button>
+    <button data-color="green">Green</button>
+    <button data-color="blue">White</button>
+  </div>
+  <div class="box" id="objBox"></div>
+  <div class="cursor" id="cursor_4"></div>
+  <div class="cursor" id="cursor_8"></div>
+  <div class="cursor" id="cursor_12"></div>
+  <div class="cursor" id="cursor_16"></div>
+  <div class="cursor" id="cursor_20"></div>
+</div>
+
 
   <section id="demos" class="invisible">
     <div id="liveView" class="videoView">
-      <button id="webcamButton" class="mdc-button mdc-button--raised">
-        <span class="mdc-button__ripple"></span>
-        <span class="mdc-button__label">ENABLE WEBCAM</span>
-      </button>
       <div style="position: relative;">
         <video id="webcam" style="position: abso" autoplay playsinline></video>
         <canvas class="output_canvas" id="output_canvas" style="position: absolute; left: 0px; top: 0px;"></canvas>
       </div>
+      <button id="webcamButton" class="mdc-button mdc-button--raised">
+        <span class="mdc-button__ripple"></span>
+        <span class="mdc-button__label">ENABLE WEBCAM</span>
+      </button>
     </div>
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
   <script src="./util.js"></script>
-  <script type="module" src="index.js"></script>
+  <script type="module" src="ui-dom.js"></script>
+  <!-- <script type="module" src="index-canvas.js"></script> -->
 </body>
 </html>

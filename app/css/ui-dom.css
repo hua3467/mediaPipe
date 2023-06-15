@@ -1,0 +1,51 @@
+#interactionArea {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    height: 480px;
+    width: 640px;
+  }
+  .box {
+    position: fixed;
+    height: 60px;
+    width: 60px;
+    top: 40px;
+    left: 40px;
+    background-color: rgb(255, 213, 107);
+    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.423);
+  }
+  #ui {
+    position: relative;
+    height: 480px;
+    width: 640px;
+    border: 1px solid black;
+  }
+.cursor {
+    position: absolute;
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.122);
+  }
+
+#cursor_8,
+#cursor_4 {
+    background-color: rgba(0, 0, 0, 0.423);
+}
+
+.tool-bar {
+    display: block;
+    margin-left: 160px;
+    margin-top: 20px;
+}
+
+.tool-bar button {
+    height: 44px;
+    width: 100px;
+}
+
+#demos {
+  position: absolute; 
+  left: 700px;
+  top: 50px
+}
