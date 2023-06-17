@@ -77,8 +77,8 @@ function enableCam(event) {
     if (webcamRunning === true) {
         webcamRunning = false;
         enableWebcamButton.innerText = "ENABLE PREDICTIONS";
-        // console.log(fingerMoving);
-        // fingerMoving = [];
+        console.log(fingerMoving);
+        fingerMoving = [];
     }
     else {
         webcamRunning = true;
@@ -138,6 +138,8 @@ async function predictWebcam() {
 
                 pickObj(coord_mark_4[0], coord_mark_4[1], box);
             }
+
+            fingerMoving.push([landmarks[8].x, landmarks[8].y, landmarks[8].z]);
 
             updateCursor(landmarks[4], 0);
             updateCursor(landmarks[8], 1);
