@@ -111,3 +111,16 @@ footer {
 .detectOnClick img {
   width: 100%;
 }
+
+
+.btn-color {
+  transition: 0.5s;
+}
+
+.btn-hovered {
+  transform: scale(1.2);
+}
+
+.page-content {
+  padding: 0 20px;
+}
