@@ -37,6 +37,12 @@ let zAddition = 0;
 let deciNum = 3;
 let touchThreshold = 0.17;
 let includePoints = [0, 4, 8, 12, 16, 20];
+let smoothening = 5;
+
+let previousX = 0;
+let previousY = 0;
+let currentX = 0;
+let currentY = 0;
 
 const coord_mark_5 = [0, 0];
 
@@ -137,8 +143,8 @@ async function predictWebcam() {
     if (results.landmarks) {
         for (const landmarks of results.landmarks) {
 
-            coord_mark_5[0] = (0.8 - landmarks[5].x) * uiContainer.clientWidth * cursorMovingMultiplier - 2500;
-            coord_mark_5[1] = (0.8 - landmarks[5].y) * uiContainer.clientHeight * cursorMovingMultiplier - 2500;
+            // coord_mark_5[0] = (0.8 - landmarks[5].x) * uiContainer.clientWidth * cursorMovingMultiplier - 2500;
+            // coord_mark_5[1] = (0.8 - landmarks[5].y) * uiContainer.clientHeight * cursorMovingMultiplier - 2500;
 
 
                 if (objectClicked(cursor, btnColor[0])) {
@@ -177,7 +183,9 @@ async function predictWebcam() {
             // updateFingerTip(landmarks[12],12, 2);
             // updateFingerTip(landmarks[16],16, 3);
             // updateFingerTip(landmarks[20],20, 4);
-            updateCursor(landmarks[5], 5, 5)
+            updateCursor(landmarks[5], 5, 5);
+
+            
 
             // updateCursorLine(landmarks[4], landmarks[8], 4, 8);
 
@@ -202,25 +210,29 @@ function updateFingerTip(landmark, markIndex, cursorIndex) {
 
 function updateCursor(landmark, markIndex, cursorIndex) {
 
-    let left = (smooth((0.8 - landmark.x), cursorIndex, 'x') * uiContainer.clientWidth * cursorMovingMultiplier - 2500);
-    let top = (smooth((0.8 - landmark.y), cursorIndex, 'y') * uiContainer.clientHeight * cursorMovingMultiplier - 1800);
+    let left = (0.8 - landmark.x) * uiContainer.clientWidth * cursorMovingMultiplier - 2500;
+    let top = (0.8 - landmark.y) * uiContainer.clientHeight * cursorMovingMultiplier - 1800;
 
-    if(left <= 1) {
-        left = 1;
-    } else if (left >= window.innerWidth) {
-        left = window.innerWidth - 100;
+    currentX = previousX + (left - previousX) / smoothening;
+    currentY = previousY + (top - previousY) / smoothening;
+
+    if(currentX <= 1) {
+        currentX = 1;
+    } else if (currentX >= uiContainer.clientWidth) {
+        currentX = uiContainer.clientWidth - 40;
     }
 
-    if (top <= 1) {
-        top = 1;
-    } else if (top >= window.innerHeight) {
-        top = window.innerHeight - 100;
+    if (currentY <= 1) {
+        currentY = 1;
+    } else if (currentY >= uiContainer.clientHeight) {
+        currentY = uiContainer.clientHeight - 40;
     }
 
-    cursor.style.left = left + "px";
-    cursor.style.top = top + "px";
+    cursor.style.left = currentX + "px";
+    cursor.style.top = currentY + "px";
     
-    
+    previousX = currentX;
+    previousY = currentY;
 }
 
 function objectClicked(obj, target) {

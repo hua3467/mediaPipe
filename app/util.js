@@ -28,6 +28,10 @@ const moves = [
     }
 ]
 
+
+
+
+
 /**
  * 
  * @param {number} newNum value of the coord
@@ -35,11 +39,14 @@ const moves = [
  * @param {number} coord x, y, or z
  * @returns 
  */
-const smooth = (newNum, finger, coord) => {
-        moves[finger][coord].push(newNum);
-        moves[finger][coord].shift();
-        return moves[finger][coord].reduce((a, b) => a + b) / moves[finger][coord].length;
-    }
+// const smooth = (newNum, finger, coord) => {
+//         moves[finger][coord].push(newNum);
+//         moves[finger][coord].shift();
+//         return moves[finger][coord].reduce((a, b) => a + b) / moves[finger][coord].length;
+//     }
+const smooth = (acturalValue, prevValue, currentValue, smooth=5) => {
+    currentValue = prevValue + (acturalValue - prevValue) / smooth;
+}
 
 
 
