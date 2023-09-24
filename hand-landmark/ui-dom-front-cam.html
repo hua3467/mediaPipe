@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Copyright 2023 The MediaPipe Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="./css/ui-dom.css">
+
+<style>
+  /* Add your CSS styles here for styling the webpage */
+  body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      color: #333;
+  }
+  /* Add more CSS styles for header, sections, and footer as needed */
+  header {
+      background-color: #009966;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+  }
+  section {
+      padding: 20px;
+      margin: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+  }
+
+  .tool-bar {
+    position: fixed;
+    top: 728px;
+    background-color: #009966;
+    width: 1080px;
+  }
+</style>
+
+
+<body>
+  <p class="info"></p>
+<div id="ui">
+  <div class="tool-bar">
+    <button class="btn-color" data-color="red">Home</button>
+    <button class="btn-color" data-color="green">Brand Stories</button>
+    <button class="btn-color" data-color="blue">Products</button>
+  </div>
+  <div class="box hide" id="objBox"></div>
+  <div class="cursor-master" id="cursor_master"></div>
+  <div class="cursor hide" id="cursor_4"></div>
+  <div class="cursor hide" id="cursor_8"></div>
+  <div class="cursor hide" id="cursor_12"></div>
+  <div class="cursor hide" id="cursor_16"></div>
+  <div class="cursor hide" id="cursor_20"></div>
+  <div class="page-content">
+    
+  </div>
+</div>
+
+
+  <section id="demos" class="invisible">
+    <div id="liveView" class="videoView">
+      <div style="position: relative;">
+        <video id="webcam" autoplay playsinline height="200" width="320"></video>
+        <canvas class="output_canvas" id="output_canvas" style="position: absolute; left: 0px; top: 0px;"></canvas>
+      </div>
+      <button id="webcamButton" class="mdc-button mdc-button--raised">
+        <span class="mdc-button__ripple"></span>
+        <span class="mdc-button__label">ENABLE WEBCAM</span>
+      </button>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
+
+  <script src="./pages.js"></script>
+  <script src="./util.js"></script>
+  <script type="module" src="ui-dom-front-cam.js"></script>
+  <!-- <script type="module" src="index-canvas.js"></script> -->
+</body>
+</html>

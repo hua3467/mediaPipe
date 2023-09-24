@@ -21,9 +21,6 @@ body {
   --mdc-theme-on-primary: #f1f3f4;
 }
 
-h1 {
-  color: #007f8b;
-}
 
 h2 {
   clear: both;
@@ -123,4 +120,8 @@ footer {
 
 .page-content {
   padding: 0 20px;
+}
+
+.hide {
+  display: none;
 }
