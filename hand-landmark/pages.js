@@ -47,25 +47,25 @@ const page_2 = `<header>
 <section>
 <h2>Story 1: The Organic Odyssey</h2>
 <p>Our journey began with a simple desire—to create teas that not only taste great but also embody the essence of a cool summer breeze. Each blend tells a story of our commitment to organic and sustainable sourcing, as well as our passion for sharing the goodness of nature with the world.</p>
-<img src="https://picsum.photos/800/600?random=1" alt="The Organic Odyssey">
+<img src="https://res.cloudinary.com/dop0mlakv/image/upload/v1682777561/public_upload/cxwvwglzc4lrhp304m5e.jpg" alt="The Organic Odyssey">
 </section>
 
 <section>
 <h2>Story 2: From Nature's Lap to Your Cup</h2>
 <p>Discover the magic of pure, unadulterated flavor with Naton's dedication to preserving the essence of nature. Our teas are carefully handpicked and crafted to capture the essence of sun-kissed gardens, bringing the taste of nature straight to your cup.</p>
-<img src="https://picsum.photos/800/600?random=2" alt="From Nature's Lap to Your Cup">
+<img src="https://res.cloudinary.com/dop0mlakv/image/upload/v1682735481/samples/cld-sample-2.jpg" alt="From Nature's Lap to Your Cup">
 </section>
 
 <section>
 <h2>Story 3: Cool Summer, Cool Choices</h2>
 <p>Cool summer vibes meet conscious choices at Naton. Our teas are a reflection of our commitment to a sustainable future. Join us on a journey where your favorite summer sips become a force for good, making every day a celebration of green living.</p>
-<img src="https://picsum.photos/800/600?random=3" alt="Cool Summer, Cool Choices">
+<img src="https://res.cloudinary.com/dop0mlakv/image/upload/v1682778906/public_upload/bxsh5f61rqlbedrb8xna.jpg" alt="Cool Summer, Cool Choices">
 </section>
 
 <section>
 <h2>Story 4: Sip and Savor</h2>
 <p>At Naton, we invite you to sip and savor the moments that matter. Our teas are more than just beverages; they are a delicious embodiment of our brand's philosophy. Join us in embracing the green, organic, and effortlessly cool spirit of summer, one sip at a time.</p>
-<img src="https://picsum.photos/800/600?random=4" alt="Sip and Savor">
+<img src="https://res.cloudinary.com/dop0mlakv/image/upload/v1682779524/public_upload/svj7jo5nadcbbpkb4buw.jpg" alt="Sip and Savor">
 </section>
 
 <footer>
@@ -87,7 +87,7 @@ const page_3 = `<header>
 <p><strong>Ingredients:</strong> Organic green tea leaves, organic peppermint leaves.</p>
 <p><strong>Flavor Profile:</strong> The tea exudes a delightful aroma of fresh mint and offers a clean, brisk taste with a subtle sweetness from the green tea. It's a harmonious balance of minty and earthy notes, leaving your palate refreshed and rejuvenated.</p>
 <p><strong>Brewing Instructions:</strong> Steep 1 teaspoon of Mint Burst tea in 8 ounces of hot (not boiling) water for 2-3 minutes. Enjoy plain or with a touch of honey for added sweetness.</p>
-<img id="product1Image" src="https://picsum.photos/200/300" alt="Product 1 Image">
+<img id="product1Image" src="https://res.cloudinary.com/dop0mlakv/image/upload/v1682778428/public_upload/priwjoqh3fmh3oyeyofg.webp" alt="Product 1 Image">
 </section>
 
 <section>
@@ -96,7 +96,7 @@ const page_3 = `<header>
 <p><strong>Ingredients:</strong> Organic green tea leaves, organic mango pieces, natural mango flavoring.</p>
 <p><strong>Flavor Profile:</strong> The aroma is a burst of ripe mangoes, and the flavor is a perfect harmony of juicy mango sweetness and the subtle bitterness of green tea. It's a tropical escape that captures the essence of summer.</p>
 <p><strong>Brewing Instructions:</strong> Steep 1-2 teaspoons of Tropical Mango Fusion tea in 8 ounces of hot (not boiling) water for 2-3 minutes. For an iced version, brew a strong concentrate and pour it over ice.</p>
-<img id="product2Image" src="https://picsum.photos/200/300" alt="Product 2 Image">
+<img id="product2Image" src="https://res.cloudinary.com/dop0mlakv/image/upload/v1682778428/public_upload/priwjoqh3fmh3oyeyofg.webp" alt="Product 2 Image">
 </section>
 
 <section>
@@ -105,7 +105,7 @@ const page_3 = `<header>
 <p><strong>Ingredients:</strong> Organic green tea leaves, organic orange peel, organic lemon peel, natural citrus flavoring.</p>
 <p><strong>Flavor Profile:</strong> The aroma is a citrusy bouquet that awakens your senses. The flavor is a lively dance of citrus notes that uplift your mood and provide a zesty kick. It's the perfect way to kickstart your day.</p>
 <p><strong>Brewing Instructions:</strong> Steep 1-2 teaspoons of Citrus Sunrise Zest tea in 8 ounces of hot (not boiling) water for 2-3 minutes. Enjoy it plain or with a twist of lemon for added zest.</p>
-<img id="product3Image" src="https://picsum.photos/200/300" alt="Product 3 Image">
+<img id="product3Image" src="https://res.cloudinary.com/dop0mlakv/image/upload/v1682778428/public_upload/priwjoqh3fmh3oyeyofg.webp" alt="Product 3 Image">
 </section>
 
 <footer>
