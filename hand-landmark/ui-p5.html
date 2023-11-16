@@ -75,7 +75,67 @@ limitations under the License. -->
 
         <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
         <script src="./util.js"></script>
-        <script type="module" src="ui-p5.js"></script>
+        <!-- <script type="module" src="ui-p5.js"></script> -->
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-database.js"></script>
+<script src="https://hua3467.github.io/easy-firebase-rtdb/Database@0.2.js"></script>
+
+<script>
+	const firebaseConfig = {
+		  apiKey: "AIzaSyD7LNvOL26cGrZKmWJxwlwwdFxRF2hstME",
+		  authDomain: "time-capsule-43322.firebaseapp.com",
+		  databaseURL: "https://time-capsule-43322-default-rtdb.firebaseio.com",
+		  projectId: "time-capsule-43322",
+		  storageBucket: "time-capsule-43322.appspot.com",
+		  messagingSenderId: "536145783566",
+		  appId: "1:536145783566:web:165d6d7dc6e53bc009c55f",
+		  measurementId: "G-V0N9H5ZW9S"
+		};
+
+	const db = new Database("poser-tracking", firebaseConfig);
+	
+	const urlParams = getUrlParams(["src", "location"]);
+    const source = urlParams["src"];
+    const loc = urlParams["location"];
+
+    
+
+    if (loc !== null) {
+        console.log(urlParams);
+    } else {
+        console.log("no information");
+    }
+	
+	db.append('', {
+		time: getDateTimeFromStamp(Date.now()),
+		timeStamp: Date.now(),
+		source: source,
+        location: loc
+	})
+	
+	function getUrlParams(arr) {
+	  const queryString = window.location.search;
+	  const urlParams = new URLSearchParams(queryString);
+	  const container = {};
+	  arr.forEach(item => {
+		container[item] = urlParams.get(item);
+	  })
+	  return container;
+	}
+
+	function getDateTimeFromStamp(timestamp) {
+	  const date = new Date(timestamp);
+	  const year = date.getFullYear();
+	  const month = date.getMonth();
+	  const day = date.getDate();
+	  const hours = date.getHours();
+	  const minutes = date.getMinutes();
+	  const seconds = date.getSeconds();
+	  return (month + '/' + day + '/' + year + "," + hours + ':'+ minutes + ':'+ seconds);
+	}
+</script>
+
+
     </body>
 
 </html>

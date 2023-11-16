@@ -75,3 +75,24 @@
 .page-content p {
   line-height: 2em;
 }
+
+#scrollBar {
+  background-color: rgb(255, 255, 255);
+  height: 200px;
+  width: 32px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+#btnPageDown {
+  position: absolute;
+  right: 60px;
+  bottom: 20px;
+}
+
+#btnPageUp {
+  position: absolute;
+  right: 60px;
+  bottom: 60px;
+}

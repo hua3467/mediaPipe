@@ -13,24 +13,37 @@ import { HandLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@m
 
 const uiContainer = document.querySelector("#ui");
 const pageContent = document.querySelector(".page-content");
+
+const contentContainer = document.querySelector("#contentContainer");
+const rectContentContainer = contentContainer.getBoundingClientRect();
+
+
+
 const box = document.querySelector(".box");
 const fingerTips = document.querySelectorAll(".cursor");
 const cursor = document.querySelector("#cursor_master");
 const btnColor = document.querySelectorAll(".tool-bar button");
 const info = document.querySelector(".info");
 
-pageContent.innerHTML = page_1;
+const scrollBar = document.querySelector("#scrollBar");
+const rectRecrollBar = scrollBar.getBoundingClientRect();
+
+const btnPageUp = document.querySelector("#btnPageUp");
+const btnPageDown = document.querySelector("#btnPageDown");
+
+
+contentContainer.innerHTML = page_1;
 
 btnColor[0].addEventListener("click", e => {
-    pageContent.innerHTML = page_1;
+    contentContainer.innerHTML = page_1;
 });
 
 btnColor[1].addEventListener("click", e => {
-    pageContent.innerHTML = page_2;
+    contentContainer.innerHTML = page_2;
 });
 
 btnColor[2].addEventListener("click", e => {
-    pageContent.innerHTML = page_3;
+    contentContainer.innerHTML = page_3;
 });
 
 
@@ -41,6 +54,7 @@ let deciNum = 3;
 let touchThreshold = 0.17;
 let includePoints = [0, 4, 8, 12, 16, 20];
 let smoothening = 5;
+let touchStep = [0,0];
 
 let previousX = 0;
 let previousY = 0;
@@ -135,7 +149,7 @@ async function predictWebcam() {
     canvasElement.style.height = 200;
     canvasElement.width = 320;
     canvasElement.height = 200;
-    
+
 
     // Now let's start detecting the stream.
     if (runningMode === "IMAGE") {
@@ -157,46 +171,50 @@ async function predictWebcam() {
             // coord_mark_5[1] = (0.8 - landmarks[5].y) * uiContainer.clientHeight * cursorMovingMultiplier - 2500;
 
 
-                if (objectClicked(cursor, btnColor[0])) {
-                    
-                    if (isClicked(landmarks[4], landmarks[8], 0.05)) {
-                        pageContent.innerHTML = page_1;
-                    }
-                    
-                } else if (objectClicked(cursor, btnColor[1])) {
-
-                    if (isClicked(landmarks[4], landmarks[8], 0.05)) {
-                        pageContent.innerHTML = page_2;
-                    }
-
-                } else if (objectClicked(cursor, btnColor[2])) {
-                    
-                    if (isClicked(landmarks[4], landmarks[8], 0.05)) {
-                        pageContent.innerHTML = page_3;
-                    }
-
-                } 
+            if (objectClicked(cursor, btnColor[0])) {
 
                 if (isClicked(landmarks[4], landmarks[8], 0.05)) {
-                    pickObj(cursor, box);
+                    contentContainer.innerHTML = page_1;
                 }
 
-                if (isClicked(landmarks[4], landmarks[12], 0.05)) {
-                    console.log(cursor);
+            } else if (objectClicked(cursor, btnColor[1])) {
+
+                if (isClicked(landmarks[4], landmarks[8], 0.05)) {
+                    contentContainer.innerHTML = page_2;
                 }
-                
+
+            } else if (objectClicked(cursor, btnColor[2])) {
+
+                if (isClicked(landmarks[4], landmarks[8], 0.05)) {
+                    contentContainer.innerHTML = page_3;
+                }
+
+            }
+
+            if (isClicked(landmarks[4], landmarks[8], 0.05)) {
+                pickObj(cursor, box);
+            }
+
+            if (isClicked(landmarks[4], landmarks[12], 0.05)) {
+                pageContent.scrollBy({ left: 0, top: pageContent.clientHeight, behavior: "smooth" });
+            }
+
+            if (isClicked(landmarks[4], landmarks[16], 0.05)) {
+                pageContent.scrollBy({ left: 0, top: pageContent.clientHeight * (-1), behavior: "smooth" });
+            }
+
             clickDetect(landmarks[8].x, [-0.005, 0.005])
 
             // fingerMoving.push([landmarks[8].x, landmarks[8].y, landmarks[8].z]);
 
-            updateFingerTip(landmarks[4],4, 0);
-            updateFingerTip(landmarks[8],8, 1);
-            updateFingerTip(landmarks[12],12, 2);
-            updateFingerTip(landmarks[16],16, 3);
-            updateFingerTip(landmarks[20],20, 4);
+            updateFingerTip(landmarks[4], 4, 0);
+            updateFingerTip(landmarks[8], 8, 1);
+            updateFingerTip(landmarks[12], 12, 2);
+            updateFingerTip(landmarks[16], 16, 3);
+            updateFingerTip(landmarks[20], 20, 4);
             updateCursor(landmarks[5], 5, 5);
 
-            
+
 
             // updateCursorLine(landmarks[4], landmarks[8], 4, 8);
 
@@ -214,6 +232,30 @@ async function predictWebcam() {
     }
 }
 
+
+
+
+console.log(contentContainer.clientHeight);
+scrollBar.addEventListener('mousemove', function (event) {
+
+    const y = event.clientY - rectRecrollBar.top;
+    const percentY = y / rectRecrollBar.height;
+
+    pageContent.scroll({ top: contentContainer.clientHeight * percentY, left: 0 });
+
+});
+
+
+
+btnPageDown.addEventListener("click", e => {
+    console.log(pageContent.clientHeight);
+    pageContent.scrollBy({ left: 0, top: pageContent.clientHeight, behavior: "smooth" });
+})
+
+btnPageUp.addEventListener("click", e => {
+    pageContent.scrollBy({ left: 0, top: pageContent.clientHeight * (-1), behavior: "smooth" });
+})
+
 function updateFingerTip(landmark, markIndex, cursorIndex) {
     fingerTips[cursorIndex].style.left = smooth((0.8 - landmark.x), cursorIndex, 'x') * uiContainer.clientWidth * movingMultiplier + "px";
     fingerTips[cursorIndex].style.top = smooth((0.8 - landmark.y), cursorIndex, 'y') * uiContainer.clientHeight * movingMultiplier + "px";
@@ -227,7 +269,7 @@ function updateCursor(landmark, markIndex, cursorIndex) {
     currentX = previousX + (left - previousX) / smoothening;
     currentY = previousY + (top - previousY) / smoothening;
 
-    if(currentX <= 1) {
+    if (currentX <= 1) {
         currentX = 1;
     } else if (currentX >= 520) {
         currentX = 520;
@@ -243,7 +285,7 @@ function updateCursor(landmark, markIndex, cursorIndex) {
 
     cursor.style.left = currentX * 2 + "px";
     cursor.style.top = currentY * 2 + "px";
-    
+
     previousX = currentX;
     previousY = currentY;
 }
@@ -251,10 +293,10 @@ function updateCursor(landmark, markIndex, cursorIndex) {
 function objectClicked(obj, target) {
     const targetRect = target.getBoundingClientRect();
     const objRect = obj.getBoundingClientRect();
-    
+
     let isTouched = false;
 
-    if (objRect.x + objRect.width > targetRect.x  && objRect.x < targetRect.x + targetRect.width && objRect.y + objRect.height > targetRect.y && objRect.y < targetRect.y + targetRect.height ) {
+    if (objRect.x + objRect.width > targetRect.x && objRect.x < targetRect.x + targetRect.width && objRect.y + objRect.height > targetRect.y && objRect.y < targetRect.y + targetRect.height) {
         if (!target.classList.contains("btn-hovered")) {
             target.classList.add("btn-hovered");
         }
@@ -272,12 +314,12 @@ function objectClicked(obj, target) {
 
 function pickObj(obj, target) {
 
-    const targetRect = target.getBoundingClientRect();  
-    const objRect = obj.getBoundingClientRect();  
-    if (objRect.x + objRect.width > targetRect.x  && objRect.x < targetRect.x + targetRect.width && objRect.y + objRect.height > targetRect.y && objRect.y < targetRect.y + targetRect.height ) {
+    const targetRect = target.getBoundingClientRect();
+    const objRect = obj.getBoundingClientRect();
+    if (objRect.x + objRect.width > targetRect.x && objRect.x < targetRect.x + targetRect.width && objRect.y + objRect.height > targetRect.y && objRect.y < targetRect.y + targetRect.height) {
         target.style.left = objRect.x + "px";
         target.style.top = objRect.y + "px";
-    } 
+    }
 
 }
 
@@ -290,13 +332,17 @@ function isClicked(landmark1, landmark2, threshold) {
     const a = landmark1.x - landmark2.x;
     const b = landmark1.y - landmark2.y;
 
-    if (Math.hypot(a,b) < threshold) {
+    if (Math.hypot(a, b) < threshold) {
+
+        touchStep[0] = 1;
 
         if (!cursor.classList.contains("cursor-active")) {
             cursor.classList.add("cursor-active");
         }
-        
-        return (Math.hypot(a,b) < threshold);
+
+        return (Math.hypot(a, b) < threshold);
+    } else if (Math.hypot(a, b) >= threshold){
+        touchStep[1] = 1;
     } else {
         if (cursor.classList.contains("cursor-active")) {
             cursor.classList.remove("cursor-active");
