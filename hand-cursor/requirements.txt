@@ -1,0 +1,3 @@
+pyobjc-framework-Quartz>=10
+cffi>=1.15  # runtime for Ultraleap's compiled bindings module
+pytest>=7

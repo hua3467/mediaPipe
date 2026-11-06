@@ -1,0 +1,27 @@
+{
+  "tracking_mode": "screentop",
+  "right_axis": [
+    -0.9981,
+    0.0183,
+    0.0593
+  ],
+  "up_axis": [
+    -0.0597,
+    -0.0216,
+    -0.998
+  ],
+  "lift_axis": [
+    -0.6599,
+    -0.5556,
+    -0.5057
+  ],
+  "keyboard_level": -331.4,
+  "raised_level": -277.9,
+  "mouse_position": [
+    -18.7,
+    400.4,
+    134.1
+  ],
+  "pinch_closed_mm": 8.7,
+  "pinch_open_mm": 34.4
+}
